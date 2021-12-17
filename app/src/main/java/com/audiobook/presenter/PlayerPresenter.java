@@ -69,7 +69,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
         mPlayModeSp = BaseApplication.getAppContext().getSharedPreferences(PLAY_MODE_SP_NAME, Context.MODE_PRIVATE);
     }
 
-    private static PlayerPresenter sPlayerPresenter;
+    private volatile static PlayerPresenter sPlayerPresenter;
 
     public static PlayerPresenter getPlayerPresenter() {
         if (sPlayerPresenter == null) {

@@ -53,12 +53,14 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
         }).subscribeOn(Schedulers.io()).subscribe();
     }
 
-    private static SubscriptionPresenter sSubscriptionPresenter = null;
+    private volatile static SubscriptionPresenter sSubscriptionPresenter ;
 
     public static SubscriptionPresenter getInstance() {
         if (sSubscriptionPresenter == null) {
             synchronized (SubscriptionPresenter.class) {
-                sSubscriptionPresenter = new SubscriptionPresenter();
+                if (sSubscriptionPresenter == null){
+                    sSubscriptionPresenter = new SubscriptionPresenter();
+                }
             }
         }
         return sSubscriptionPresenter;

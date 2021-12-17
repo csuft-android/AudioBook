@@ -27,7 +27,7 @@ public class RecommendPresenter implements IRecommendPresenter {
     private RecommendPresenter() {
     }
 
-    private static RecommendPresenter sInstance ;
+    private volatile static RecommendPresenter sRecommendPresenter;
 
     /**
      * 获得单例对象
@@ -35,21 +35,21 @@ public class RecommendPresenter implements IRecommendPresenter {
      * @return
      */
     public static RecommendPresenter getInstance() {
-        if (sInstance == null) {
+        if (sRecommendPresenter == null) {
             synchronized (RecommendPresenter.class) {
-                if (sInstance == null) {
-                    sInstance = new RecommendPresenter();
+                if (sRecommendPresenter == null) {
+                    sRecommendPresenter = new RecommendPresenter();
                 }
             }
         }
-        return sInstance;
+        return sRecommendPresenter;
     }
 
     @Override
     public void getRecommendList() {
         upDateLoading();
-        AudioBookApi ximalayaApi = new AudioBookApi();
-        ximalayaApi.getRecommendList(new IDataCallBack<GussLikeAlbumList>() {
+        AudioBookApi audioBookApi = AudioBookApi.getInstance();
+        audioBookApi.getRecommendList(new IDataCallBack<GussLikeAlbumList>() {
             @Override
             public void onSuccess(GussLikeAlbumList gussLikeAlbumList) {
                 if (gussLikeAlbumList != null) {
