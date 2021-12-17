@@ -19,11 +19,12 @@ import java.util.Map;
  * @Date 2021/10/26 17:33
  */
 public class AudioBookApi {
-    public AudioBookApi() {
+
+    private AudioBookApi() {
 
     }
 
-    private static AudioBookApi sAudioBookApi;
+    private volatile static AudioBookApi sAudioBookApi;
 
     public static AudioBookApi getInstance() {
         if (sAudioBookApi == null) {

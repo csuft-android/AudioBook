@@ -39,7 +39,7 @@ public class SearchPresenter implements ISearchPresenter {
         mXimalayaApi = AudioBookApi.getInstance();
     }
 
-    private static SearchPresenter sSearchPresenter = null;
+    private volatile static SearchPresenter sSearchPresenter ;
 
     public static SearchPresenter getSearchPresenter() {
         if (sSearchPresenter == null) {

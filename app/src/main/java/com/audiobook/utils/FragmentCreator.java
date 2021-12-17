@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class FragmentCreator {
 
-    private volatile static FragmentCreator mFragmentCreator = null;
+    private volatile static FragmentCreator mFragmentCreator ;
 
     public static FragmentCreator getInstance() {
         if (mFragmentCreator == null) {

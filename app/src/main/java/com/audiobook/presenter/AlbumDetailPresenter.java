@@ -31,17 +31,17 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
 
     private AlbumDetailPresenter() { }
 
-    private static AlbumDetailPresenter sInstance = null;
+    private volatile static AlbumDetailPresenter sAlbumDetailPresenter ;
 
     public static AlbumDetailPresenter getInstance() {
-        if (sInstance == null) {
+        if (sAlbumDetailPresenter == null) {
             synchronized (AlbumDetailPresenter.class) {
-                if (sInstance == null) {
-                    sInstance = new AlbumDetailPresenter();
+                if (sAlbumDetailPresenter == null) {
+                    sAlbumDetailPresenter = new AlbumDetailPresenter();
                 }
             }
         }
-        return sInstance;
+        return sAlbumDetailPresenter;
     }
 
     @Override
