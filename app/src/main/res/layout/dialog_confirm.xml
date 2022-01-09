@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="180dp"
+    android:layout_height="140dp"
     android:layout_gravity="center"
     android:background="@drawable/shape_confirm_dialog_bg"
     android:orientation="vertical">
@@ -24,7 +24,7 @@
     <LinearLayout
         android:id="@+id/dialog_button_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
         android:orientation="horizontal">
 
         <TextView
@@ -39,7 +39,7 @@
 
         <View
             android:layout_width="1dp"
-            android:layout_height="match_parent"
+            android:layout_height="45dp"
             android:background="#dfdfdf" />
 
         <TextView

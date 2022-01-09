@@ -20,7 +20,8 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/track_pager_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
+        android:layout_weight="8"
         android:layout_marginTop="29dp"
         android:layout_marginBottom="60dp"
         android:background="@color/white" />
@@ -29,9 +30,9 @@
     <!--进度条和时间-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="50dp"
         android:orientation="horizontal">
 
         <TextView
@@ -62,8 +63,9 @@
     <!--播放控制-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
         android:gravity="center"
+        android:layout_weight="2"
         android:orientation="horizontal">
 
         <ImageView
