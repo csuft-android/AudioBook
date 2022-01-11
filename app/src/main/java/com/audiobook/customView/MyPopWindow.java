@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.audiobook.R;
 import com.audiobook.adapter.PlayListAdapter;
 import com.audiobook.base.BaseApplication;
@@ -37,7 +35,6 @@ public class MyPopWindow extends PopupWindow {
     private TextView mPlayModeTv;
     private LinearLayout mPlayModeContainer;
     private PlayListActionClickListener mPlayModeClickListener = null;
-    private LinearLayout mOrderBtnContainer;
     private ImageView mOrderIcon;
     private TextView mOrderText;
 
@@ -72,8 +69,6 @@ public class MyPopWindow extends PopupWindow {
         //播放模式相关
         mPlayModeTv = mPopView.findViewById(R.id.play_list_mode_tv);
         mPlayModeIv = mPopView.findViewById(R.id.player_list_mode_iv);
-        mPlayModeContainer = mPopView.findViewById(R.id.play_list_mode_container);
-        mOrderBtnContainer = mPopView.findViewById(R.id.play_list_order_container);
         mOrderIcon = mPopView.findViewById(R.id.play_list_order_iv);
         mOrderText = mPopView.findViewById(R.id.play_list_order_tv);
     }
@@ -82,13 +77,13 @@ public class MyPopWindow extends PopupWindow {
         //点击关闭以后，窗口消失
         mCloseBtn.setOnClickListener(v -> dismiss());
 
-        mPlayModeContainer.setOnClickListener(v -> {
+        mPlayModeTv.setOnClickListener(v -> {
             //切换播放模式
             if (mPlayModeClickListener != null) {
                 mPlayModeClickListener.onPlayModeClick();
             }
         });
-        mOrderBtnContainer.setOnClickListener(v -> {
+        mOrderText.setOnClickListener(v -> {
             //切换播放列表为顺序或者逆序
             if (mPlayModeClickListener != null) {
                 mPlayModeClickListener.onOrderClick();
