@@ -3,36 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_color"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/main_color"
-        android:orientation="horizontal">
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/main_indicator"
+        android:layout_width="340dp"
+        android:layout_height="40dp" />
 
-        <net.lucode.hackware.magicindicator.MagicIndicator
-            android:id="@+id/main_indicator"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3" />
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/main_search_btn"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerInParent="true"
-                android:src="@mipmap/search_icon" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/main_search_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/main_indicator"
+        android:src="@mipmap/search_icon" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/content_pager"
@@ -40,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="60dp"
+        android:background="#EBE8E8"
         android:overScrollMode="never" />
 
     <LinearLayout
@@ -47,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -89,7 +78,5 @@
             android:layout_height="30dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/selector_player_play" />
-
     </LinearLayout>
-
 </RelativeLayout>

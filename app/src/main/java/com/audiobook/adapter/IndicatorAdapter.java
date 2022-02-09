@@ -42,7 +42,7 @@ public class IndicatorAdapter extends CommonNavigatorAdapter {
         //设置选中情况下的颜色为黑色
         colorTransitionPagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
         //单位sp
-        colorTransitionPagerTitleView.setTextSize(18);
+        colorTransitionPagerTitleView.setTextSize(20);
         //设置要显示的内容
         colorTransitionPagerTitleView.setText(mTitles[index]);
         //设置title的点击事件，这里的话，如果点击了title，那么久选中下面的viewPager到对应的index里面去

@@ -56,7 +56,6 @@ public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewP
     private ImageView mPlayNextBtn;
     private TextView mTrackTitleTv;
     private String mTrackTitleText;
-    private ImageView mPlayingBgIv;
     private ImageView mImageCover;
     private ViewPager mTrackPageView;
     private PlayerTrackPagerAdapter mTrackPagerAdapter;
@@ -138,7 +137,6 @@ public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewP
         if (!TextUtils.isEmpty(mTrackTitleText)) {
             mTrackTitleTv.setText(mTrackTitleText);
         }
-        mPlayingBgIv = findViewById(R.id.play_page_bg_iv);
         //mImageCover = findViewById(R.id.album_cover_view);
         //中间图片的适配器
         mTrackPageView = findViewById(R.id.track_pager_view);
