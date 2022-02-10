@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.audiobook.Activity.DetailActivity;
+import com.audiobook.activity.DetailActivity;
 import com.audiobook.R;
 import com.audiobook.adapter.AlbumListAdapter;
 import com.audiobook.base.BaseFragment;

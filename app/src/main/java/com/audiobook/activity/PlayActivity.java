@@ -1,4 +1,4 @@
-package com.audiobook.Activity;
+package com.audiobook.activity;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;

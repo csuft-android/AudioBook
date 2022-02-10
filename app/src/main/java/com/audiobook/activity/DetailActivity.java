@@ -1,4 +1,4 @@
-package com.audiobook.Activity;
+package com.audiobook.activity;
 
 import android.content.Intent;
 import android.graphics.Rect;

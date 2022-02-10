@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffF4F4F4"
-    tools:context=".Activity.DetailActivity">
+    tools:context=".activity.DetailActivity">
 
     <ImageView
         android:id="@+id/iv_large_cover"

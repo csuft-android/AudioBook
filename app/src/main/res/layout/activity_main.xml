@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_color"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/main_indicator"

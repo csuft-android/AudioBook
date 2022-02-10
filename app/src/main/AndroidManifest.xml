@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AudioBook">
         <activity
-            android:name="com.audiobook.MainActivity"
+            android:name="com.audiobook.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,12 +36,12 @@
             android:name="com.audiobook.base.BaseActivity"
             android:exported="true" />
         <activity
-            android:name="com.audiobook.Activity.DetailActivity"
+            android:name="com.audiobook.activity.DetailActivity"
             android:exported="true" />
         <activity
-            android:name="com.audiobook.Activity.PlayActivity"
+            android:name="com.audiobook.activity.PlayActivity"
             android:exported="true" />
-        <activity android:name="com.audiobook.Activity.SearchActivity"
+        <activity android:name="com.audiobook.activity.SearchActivity"
             android:exported="true"/>
 
         <service
