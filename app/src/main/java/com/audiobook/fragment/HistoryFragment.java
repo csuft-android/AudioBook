@@ -12,10 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.audiobook.Activity.PlayActivity;
+import com.audiobook.activity.PlayActivity;
 import com.audiobook.R;
 import com.audiobook.adapter.TrackListAdapter;
-import com.audiobook.base.BaseApplication;
 import com.audiobook.base.BaseFragment;
 import com.audiobook.customView.ConfirmCheckBoxDialog;
 import com.audiobook.presenter.HistoryPresenter;

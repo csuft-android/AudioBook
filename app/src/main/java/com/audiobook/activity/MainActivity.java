@@ -1,4 +1,4 @@
-package com.audiobook;
+package com.audiobook.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,9 +12,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.audiobook.R;
 import com.bumptech.glide.Glide;
-import com.audiobook.Activity.PlayActivity;
-import com.audiobook.Activity.SearchActivity;
+import com.audiobook.activity.PlayActivity;
+import com.audiobook.activity.SearchActivity;
 import com.audiobook.adapter.IndicatorAdapter;
 import com.audiobook.adapter.MainContentAdapter;
 import com.audiobook.customView.RoundRectImageView;
@@ -32,8 +33,6 @@ import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 import java.util.List;
-
-import leakcanary.AppWatcher;
 
 /**
  * @author 优雅永不过时

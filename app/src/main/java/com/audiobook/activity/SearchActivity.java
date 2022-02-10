@@ -1,4 +1,4 @@
-package com.audiobook.Activity;
+package com.audiobook.activity;
 
 import android.content.Context;
 import android.content.Intent;
