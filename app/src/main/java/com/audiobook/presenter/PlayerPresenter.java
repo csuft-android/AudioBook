@@ -58,6 +58,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
     public static final String PLAY_MODE_SP_KEY = "currentPlayMode";
     private int mCurrentProgressPosition = 0;
     private int mProgressDuration = 0;
+    private List<Track> mTracks;
 
     private PlayerPresenter() {
         mPlayerManager = XmPlayerManager.getInstance(BaseApplication.getAppContext());
@@ -253,12 +254,16 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
             @Override
             public void onSuccess(TrackList trackList) {
                 //2、把专辑内容设置给播放器
-                List<Track> tracks = trackList.getTracks();
-                if (tracks.size() > 0) {
-                    mPlayerManager.setPlayList(tracks, DEFAULT_PLAY_INDEX);
-                    isPlayListSet = true;
-                    mCurrentTrack = tracks.get(DEFAULT_PLAY_INDEX);
+                mTracks = trackList.getTracks();
+                if (mTracks.size() > 0) {
+                    mPlayerManager.setPlayList(mTracks, DEFAULT_PLAY_INDEX);
+                    mCurrentTrack = mTracks.get(DEFAULT_PLAY_INDEX);
                     mCurrentIndex = DEFAULT_PLAY_INDEX;
+                    isPlayListSet = true;
+                    //将专辑内容回调到PlayActivity中，加入到popWindow中
+                    for (IPlayerCallback iPlayerCallback : mIPlayerCallbacks) {
+                        iPlayerCallback.onListLoad(mTracks);
+                    }
                 }
             }
 

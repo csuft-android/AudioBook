@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AudioBook">
         <activity
-            android:name="com.audiobook.MainActivity"
+            android:name="com.audiobook.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,14 +35,6 @@
         <activity
             android:name="com.audiobook.base.BaseActivity"
             android:exported="true" />
-        <activity
-            android:name="com.audiobook.Activity.DetailActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.audiobook.Activity.PlayActivity"
-            android:exported="true" />
-        <activity android:name="com.audiobook.Activity.SearchActivity"
-            android:exported="true"/>
 
         <service
             android:name="com.ximalaya.ting.android.opensdk.player.service.XmPlayerService"

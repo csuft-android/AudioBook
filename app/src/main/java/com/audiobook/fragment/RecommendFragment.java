@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.audiobook.Activity.DetailActivity;
 import com.audiobook.R;
 import com.audiobook.adapter.AlbumListAdapter;
 import com.audiobook.base.BaseFragment;
@@ -38,20 +39,18 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
     private AlbumListAdapter mAlbumListAdapter;
     private RecommendPresenter mRecommendPresenter;
     private UILoader mUiLoader;
+    private FragmentManager mFm;
 
     @Override
     protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
+        mFm = getFragmentManager();
         mUiLoader = new UILoader(getContext()) {
             @Override
             protected View getSuccessView(ViewGroup container) {
                 return createSuccessView(layoutInflater, container);
             }
         };
-        mRecommendPresenter = RecommendPresenter.getInstance();
-        //注册接口
-        mRecommendPresenter.registerViewCallback(this);
-        //请求推荐数据
-        mRecommendPresenter.getRecommendList();
+        initPresenter();
         //解绑
         if (mUiLoader.getParent() instanceof ViewGroup) {
             ((ViewGroup) mUiLoader.getParent()).removeView(mUiLoader);
@@ -66,6 +65,14 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
             }
         });
         return mUiLoader;
+    }
+
+    private void initPresenter() {
+        mRecommendPresenter = RecommendPresenter.getInstance();
+        //注册接口
+        mRecommendPresenter.registerViewCallback(this);
+        //请求推荐数据
+        mRecommendPresenter.getRecommendList();
     }
 
     private View createSuccessView(LayoutInflater layoutInflater, ViewGroup container) {
@@ -115,19 +122,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         }
     }
 
-  /*  @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //取消注册
-        if (mRecommendPresenter != null) {
-            mRecommendPresenter.unRegisterViewCallback(this);
-        }
-        if (mAlbumListAdapter!=null){
-            mAlbumListAdapter.setAlbumItemClickListener(null);
-            mAlbumListAdapter.setOnAlbumItemLongClickListener(null);
-        }
 
-    }*/
 
     @Override
     public void onRecommendListLoad(List<Album> result) {
@@ -158,6 +153,9 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         //把数据传到AlbumDetailPresenter层去
         AlbumDetailPresenter.getInstance().setTargetAlbum(album);
         //Item被点击了，跳转到详情界面
-        startActivity(new Intent(getContext(), DetailActivity.class));
+        FragmentTransaction ft = mFm.beginTransaction();
+        ft.replace(R.id.main_contain, new DetailFragment());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

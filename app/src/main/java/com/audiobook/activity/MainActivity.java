@@ -1,8 +1,8 @@
-package com.audiobook;
+package com.audiobook.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,11 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.audiobook.R;
+import com.audiobook.fragment.PlayFragment;
+import com.audiobook.fragment.SearchFragment;
 import com.bumptech.glide.Glide;
-import com.audiobook.Activity.PlayActivity;
-import com.audiobook.Activity.SearchActivity;
 import com.audiobook.adapter.IndicatorAdapter;
 import com.audiobook.adapter.MainContentAdapter;
 import com.audiobook.customView.RoundRectImageView;
@@ -33,8 +35,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 
 import java.util.List;
 
-import leakcanary.AppWatcher;
-
 /**
  * @author 优雅永不过时
  * @Package com.audiobook
@@ -52,7 +52,8 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     private ImageView mPlayControl;
     private PlayerPresenter mPlayerPresenter;
     private LinearLayout mPlayControlItem;
-    private ImageView mSearchBtn;
+    private TextView mSearchBtn;
+    private FragmentManager mSupportFragmentManager;
 
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         mPlayerPresenter = PlayerPresenter.getPlayerPresenter();
         mPlayerPresenter.registerViewCallback(this);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -110,10 +112,27 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
                 playFirstRecommend();
             }
             //跳转到播放器界面
-            startActivity(new Intent(this, PlayActivity.class));
+            FragmentTransaction ft = mSupportFragmentManager.beginTransaction();
+            ft.replace(R.id.main_contain, new PlayFragment());
+            ft.addToBackStack(null);
+            ft.commit();
         });
-        mSearchBtn.setOnClickListener(v -> startActivity(new Intent(this, SearchActivity.class)));
+        mSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到搜索页面
+           /*     Intent intent = new Intent();
+                intent.setClass(MainActivity.this, SearchActivity.class);
+                startActivity(intent);*/
+                FragmentTransaction ft = mSupportFragmentManager.beginTransaction();
+                ft.replace(R.id.main_contain, new SearchFragment());
+                ft.addToBackStack(null);
+                ft.commit();
+
+            }
+        });
     }
+
 
     /**
      * 播放第一个推荐的内容
@@ -127,6 +146,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         }
     }
 
+    private FragmentCreator mFragmentCreator;
 
     @SuppressLint("WrongViewCast")
     private void initView() {
@@ -141,8 +161,8 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         mContentPager = findViewById(R.id.content_pager);
         mContentPager.setOffscreenPageLimit(FragmentCreator.PAGE_COUNT);
         //创建内容适配器
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
-        MainContentAdapter mainContentAdapter = new MainContentAdapter(supportFragmentManager);
+        mSupportFragmentManager = getSupportFragmentManager();
+        MainContentAdapter mainContentAdapter = new MainContentAdapter(mSupportFragmentManager);
         mContentPager.setAdapter(mainContentAdapter);
 
         //把ViewPager和indicator绑定到一起
@@ -156,7 +176,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         mPlayControlItem = findViewById(R.id.main_play_control_item);
         //ViewKt.setRoundRectBg(mPlayControlItem, Color.parseColor("#CCCCCC"), ScreenUtils.dp2px(18));
         //搜索
-        mSearchBtn = findViewById(R.id.main_search_btn);
+        mSearchBtn = findViewById(R.id.search_input);
     }
 
     @Override
@@ -238,4 +258,5 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     public void updateListOrder(boolean isReverse) {
 
     }
+
 }
