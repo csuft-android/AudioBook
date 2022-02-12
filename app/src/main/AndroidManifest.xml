@@ -35,14 +35,7 @@
         <activity
             android:name="com.audiobook.base.BaseActivity"
             android:exported="true" />
-        <activity
-            android:name="com.audiobook.activity.DetailActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.audiobook.activity.PlayActivity"
-            android:exported="true" />
-        <activity android:name="com.audiobook.activity.SearchActivity"
-            android:exported="true"/>
+
 
         <service
             android:name="com.ximalaya.ting.android.opensdk.player.service.XmPlayerService"

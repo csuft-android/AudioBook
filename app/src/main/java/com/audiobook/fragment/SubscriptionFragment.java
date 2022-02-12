@@ -1,6 +1,5 @@
 package com.audiobook.fragment;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.audiobook.activity.DetailActivity;
 import com.audiobook.R;
 import com.audiobook.adapter.AlbumListAdapter;
 import com.audiobook.base.BaseApplication;
@@ -44,10 +44,13 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionC
     private AlbumListAdapter mAlbumListAdapter;
     private Album mCurrentClickAlbum = null;
     private UILoader mUiLoader;
+    private FragmentManager mFm;
+
 
     @Override
     protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
         FrameLayout rootView = (FrameLayout) layoutInflater.inflate(R.layout.fragment_subscription, container, false);
+        mFm = getFragmentManager();
         if (mUiLoader == null) {
             // mUiLoader = new UILoader(container.getContext()) {
             mUiLoader = new UILoader(getContext()) {
@@ -122,23 +125,14 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionC
         }
     }
 
-/*    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mSubscriptionPresenter != null) {
-            mSubscriptionPresenter.unRegisterViewCallback(this);
-        }
-        if (mAlbumListAdapter != null) {
-            mAlbumListAdapter.setAlbumItemClickListener(null);
-            mAlbumListAdapter.setOnAlbumItemLongClickListener(null);
-        }
-    }*/
-
     @Override
     public void onItemClick(int position, Album album) {
         AlbumDetailPresenter.getInstance().setTargetAlbum(album);
         //Item被点击了，跳转到详情界面
-        startActivity(new Intent(getContext(), DetailActivity.class));
+        FragmentTransaction ft = mFm.beginTransaction();
+        ft.replace(R.id.main_contain, new DetailFragment());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
