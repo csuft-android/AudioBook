@@ -1,27 +1,30 @@
-package com.audiobook.Activity;
+package com.audiobook.fragment;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.audiobook.R;
 import com.audiobook.adapter.PlayerTrackPagerAdapter;
-import com.audiobook.base.BaseActivity;
+import com.audiobook.base.BaseFragment;
 import com.audiobook.customView.MyPopWindow;
 import com.audiobook.presenter.PlayerPresenter;
 import com.audiobook.utils.LogUtil;
+import com.audiobook.utils.UILoader;
 import com.audiobook.view.IPlayerCallback;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
@@ -38,10 +41,10 @@ import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl
 
 /**
  * @author 优雅永不过时
- * @Package com.audiobook.Activity
- * @Date 2021/10/26 20:50
+ * @Package com.audiobook.fragment
+ * @Date 2022/2/12 16:08
  */
-public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewPager.OnPageChangeListener {
+public class PlayFragment extends BaseFragment implements IPlayerCallback, ViewPager.OnPageChangeListener {
     private static final String TAG = "PlayerActivity";
     private final SimpleDateFormat mMinFormat = new SimpleDateFormat("mm:ss");
     private final SimpleDateFormat mHourFormat = new SimpleDateFormat("HH:mm:ss");
@@ -56,14 +59,11 @@ public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewP
     private ImageView mPlayNextBtn;
     private TextView mTrackTitleTv;
     private String mTrackTitleText;
-    private ImageView mImageCover;
     private ViewPager mTrackPageView;
     private PlayerTrackPagerAdapter mTrackPagerAdapter;
     private boolean mIsUserSlidePager = false;
     private ImageView mPlayerModeSwitchBtn;
-
     private XmPlayListControl.PlayMode mCurrentMode = PLAY_MODEL_LIST;
-
     private ImageView mPlayerListBtn;
     private MyPopWindow mMyPopWindow;
     private ValueAnimator mEnterBgAnimator;
@@ -85,16 +85,49 @@ public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewP
     }
 
     @Override
-    protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play);
-        initView();
+    protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
+        initBgAnimation();
+        LinearLayout rootView = (LinearLayout) layoutInflater.inflate(R.layout.activity_play, container, false);
+        initView(rootView);
+        initPresenter();
+        initEvent();
+        return rootView;
+    }
+
+    /**
+     * 初始化View控件
+     */
+    private void initView(LinearLayout rootView) {
+        mControlBtn = rootView.findViewById(R.id.play_or_pause_btn);
+        mTotalDuration = rootView.findViewById(R.id.track_duration);
+        mCurrentPosition = rootView.findViewById(R.id.current_position);
+        mDurationBar = rootView.findViewById(R.id.track_seek_bar);
+        mPlayPreBtn = rootView.findViewById(R.id.play_pre);
+        mPlayNextBtn = rootView.findViewById(R.id.player_next);
+        mTrackTitleTv = rootView.findViewById(R.id.track_title);
+        if (!TextUtils.isEmpty(mTrackTitleText)) {
+            mTrackTitleTv.setText(mTrackTitleText);
+        }
+        //mImageCover = findViewById(R.id.album_cover_view);
+        //中间图片的适配器
+        mTrackPageView = rootView.findViewById(R.id.track_pager_view);
+        //创建适配器
+        mTrackPagerAdapter = new PlayerTrackPagerAdapter();
+        //设置适配器
+        mTrackPageView.setAdapter(mTrackPagerAdapter);
+        //切换播放模式的按钮
+        mPlayerModeSwitchBtn = rootView.findViewById(R.id.player_mode_switch_btn);
+        //播放器列表
+        mPlayerListBtn = rootView.findViewById(R.id.player_list);
+        mMyPopWindow = new MyPopWindow();
+    }
+
+
+    private void initPresenter() {
         mPlayerPresenter = PlayerPresenter.getPlayerPresenter();
         mPlayerPresenter.registerViewCallback(this);
         //在界面初始化才去获取数据
         mPlayerPresenter.getPlayList();
-        initEvent();
-        initBgAnimation();
     }
 
     /**
@@ -123,33 +156,6 @@ public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewP
         mPlayerModeSwitchBtn.setImageResource(resId);
     }
 
-    /**
-     * 初始化View控件
-     */
-    private void initView() {
-        mControlBtn = findViewById(R.id.play_or_pause_btn);
-        mTotalDuration = findViewById(R.id.track_duration);
-        mCurrentPosition = findViewById(R.id.current_position);
-        mDurationBar = findViewById(R.id.track_seek_bar);
-        mPlayPreBtn = findViewById(R.id.play_pre);
-        mPlayNextBtn = findViewById(R.id.player_next);
-        mTrackTitleTv = findViewById(R.id.track_title);
-        if (!TextUtils.isEmpty(mTrackTitleText)) {
-            mTrackTitleTv.setText(mTrackTitleText);
-        }
-        //mImageCover = findViewById(R.id.album_cover_view);
-        //中间图片的适配器
-        mTrackPageView = findViewById(R.id.track_pager_view);
-        //创建适配器
-        mTrackPagerAdapter = new PlayerTrackPagerAdapter();
-        //设置适配器
-        mTrackPageView.setAdapter(mTrackPagerAdapter);
-        //切换播放模式的按钮
-        mPlayerModeSwitchBtn = findViewById(R.id.player_mode_switch_btn);
-        //播放器列表
-        mPlayerListBtn = findViewById(R.id.player_list);
-        mMyPopWindow = new MyPopWindow();
-    }
 
     /**
      * 初始化事件
@@ -273,7 +279,7 @@ public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewP
     }
 
     public void updateBgAlpha(float alpha) {
-        Window window = getWindow();
+        Window window = getActivity().getWindow();
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.alpha = alpha;
         window.setAttributes(attributes);
@@ -409,8 +415,8 @@ public class PlayActivity extends BaseActivity implements IPlayerCallback, ViewP
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (mPlayerPresenter != null) {
             mPlayerPresenter.unRegisterViewCallback(this);
             mPlayerPresenter = null;

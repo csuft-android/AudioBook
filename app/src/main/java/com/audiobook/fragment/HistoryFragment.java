@@ -1,6 +1,5 @@
 package com.audiobook.fragment;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.audiobook.Activity.PlayActivity;
 import com.audiobook.R;
 import com.audiobook.adapter.TrackListAdapter;
-import com.audiobook.base.BaseApplication;
 import com.audiobook.base.BaseFragment;
 import com.audiobook.customView.ConfirmCheckBoxDialog;
 import com.audiobook.presenter.HistoryPresenter;
@@ -42,10 +41,12 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallBack, T
     private HistoryPresenter mHistoryPresenter;
     private TrackListAdapter mTrackListAdapter;
     private Track mCurrentClickHistoryItem;
+    private FragmentManager mFm;
 
     @Override
     protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
         FrameLayout rootView = (FrameLayout) layoutInflater.inflate(R.layout.fragment_history, container, false);
+        mFm = getFragmentManager();
         if (mUiLoader == null) {
             mUiLoader = new UILoader(getContext()) {
                // mUiLoader = new UILoader(BaseApplication.getAppContext()) {
@@ -67,12 +68,15 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallBack, T
             }
             rootView.addView(mUiLoader);
         }
-        //HistoryPresenter
+        initPresenter();
+        mUiLoader.upDateStatus(UILoader.UIStatus.LOADING);
+        return rootView;
+    }
+
+    private void initPresenter() {
         mHistoryPresenter = HistoryPresenter.getHistoryPresenter();
         mHistoryPresenter.registerViewCallback(this);
-        mUiLoader.upDateStatus(UILoader.UIStatus.LOADING);
         mHistoryPresenter.listHistory();
-        return rootView;
     }
 
     @Override
@@ -87,17 +91,6 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallBack, T
         }
     }
 
-  /*  @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mHistoryPresenter != null) {
-            mHistoryPresenter.unRegisterViewCallback(this);
-        }
-        if (mTrackListAdapter != null) {
-            mTrackListAdapter.setItemClickListener(null);
-            mTrackListAdapter.setItemLongClickListener(null);
-        }
-    }*/
 
     private View createSuccessView(ViewGroup container) {
         View successView = LayoutInflater.from(container.getContext()).inflate(R.layout.item_history, container, false);
@@ -149,7 +142,11 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallBack, T
         PlayerPresenter playerPresenter = PlayerPresenter.getPlayerPresenter();
         playerPresenter.setPlayList(detailData, position);
         //跳转到播放器界面
-        startActivity(new Intent(getActivity(), PlayActivity.class));
+        //startActivity(new Intent(getActivity(), PlayActivity.class));
+        FragmentTransaction ft = mFm.beginTransaction();
+        ft.replace(R.id.main_contain, new PlayFragment());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
