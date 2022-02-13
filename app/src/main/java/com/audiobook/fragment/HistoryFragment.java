@@ -49,7 +49,7 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallBack, T
         mFm = getFragmentManager();
         if (mUiLoader == null) {
             mUiLoader = new UILoader(getContext()) {
-               // mUiLoader = new UILoader(BaseApplication.getAppContext()) {
+                // mUiLoader = new UILoader(BaseApplication.getAppContext()) {
                 @Override
                 protected View getSuccessView(ViewGroup container) {
                     return createSuccessView(container);
