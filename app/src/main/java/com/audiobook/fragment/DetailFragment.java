@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -86,7 +87,7 @@ public class DetailFragment extends BaseFragment implements IAlbumDetailViewCall
 
     @Override
     protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
-        RelativeLayout rootView = (RelativeLayout) layoutInflater.inflate(R.layout.activity_detail, container, false);
+        ConstraintLayout rootView = (ConstraintLayout) layoutInflater.inflate(R.layout.activity_detail, container, false);
         mFm = getFragmentManager();
         initView(rootView);
         //创建UILoader
@@ -110,7 +111,7 @@ public class DetailFragment extends BaseFragment implements IAlbumDetailViewCall
         return rootView;
     }
 
-    private void initView(RelativeLayout rootView) {
+    private void initView(ConstraintLayout rootView) {
         mDetailListContainer = rootView.findViewById(R.id.detail_list_container);
         mLargeCover = rootView.findViewById(R.id.iv_large_cover);
         mSmallCover = rootView.findViewById(R.id.iv_small_cover);

@@ -1,63 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffF4F4F4"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffF4F4F4">
 
     <ImageView
         android:id="@+id/iv_large_cover"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="#EBE8E8"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-
-    <TextView
-        android:id="@+id/detail_sub_btn"
+    <com.audiobook.customView.RoundRectImageView
+        android:id="@+id/iv_small_cover"
         android:layout_width="75dp"
-        android:layout_height="30dp"
-        android:layout_below="@id/iv_large_cover"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="310dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/shape_subscription_bg"
-        android:gravity="center"
-        android:text="@string/sub_tips_text"
-        android:textColor="@color/white" />
+        android:layout_height="75dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="110dp"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_album_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:layout_toRightOf="@id/iv_small_cover"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="这是标题"
         android:textColor="@color/main_color"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/iv_small_cover"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_album_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_album_title"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/iv_small_cover"
         android:text="这是作者信息"
         android:textColor="#F5212121"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/iv_small_cover"
+        app:layout_constraintTop_toBottomOf="@+id/tv_album_title"/>
+
+    <TextView
+        android:id="@+id/detail_sub_btn"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="310dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/shape_subscription_bg"
+        android:gravity="center"
+        android:text="@string/sub_tips_text"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_large_cover"/>
+
+
+
 
     <LinearLayout
         android:id="@+id/player_control_container"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/detail_sub_btn"
         android:layout_marginTop="8dp"
         android:background="#EBE8E8"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/detail_sub_btn">
 
         <ImageView
             android:id="@+id/detail_play_control"
@@ -76,7 +92,8 @@
             android:layout_gravity="center"
             android:text="@string/click_play_tips_text"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,19 +111,11 @@
 
     </LinearLayout>
 
-    <com.audiobook.customView.RoundRectImageView
-        android:id="@+id/iv_small_cover"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_below="@id/iv_large_cover"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="-40dp"
-        android:scaleType="fitXY" />
 
     <FrameLayout
         android:id="@+id/detail_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/player_control_container" />
+        android:layout_marginTop="253dp" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

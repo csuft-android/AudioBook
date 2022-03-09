@@ -80,4 +80,6 @@ dependencies {
     implementation files('libs/XmDownload_2.0.jar')
     implementation files('libs/XmlyOAuth2Sdk_V2.0.jar')
     implementation files('libs/oaid_sdk_1.0.25.aar')
+
+    debugImplementation project(path: ':detector')
 }
