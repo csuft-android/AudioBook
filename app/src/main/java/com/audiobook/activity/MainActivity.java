@@ -2,10 +2,12 @@ package com.audiobook.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -257,6 +259,30 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     @Override
     public void updateListOrder(boolean isReverse) {
 
+    }
+
+    // 用来计算返回键的点击间隔时间
+    private long exitTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            // 获取当前回退栈中的Fragment个数
+            int backStackEntryCount = mSupportFragmentManager.getBackStackEntryCount();
+            if(backStackEntryCount > 0){
+                mSupportFragmentManager.popBackStack();
+            }else{
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+                    //弹出提示
+                    Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                }
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
